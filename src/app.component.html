@@ -1,0 +1,32 @@
+@if (isAuthenticated()) {
+  <div class="flex flex-col min-h-screen bg-slate-900 text-slate-300 animate-fade-in-slide-up">
+    <app-header 
+      [currentView]="currentView()"
+      (navigate)="handleNavigation($event)">
+    </app-header>
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+      @switch(currentView()) {
+        @case ('dashboard') {
+          <app-dashboard></app-dashboard>
+        }
+        @case ('doctors') {
+          <app-doctors-directory (scheduleForDoctor)="handleScheduleForDoctor($event)"></app-doctors-directory>
+        }
+        @case ('patients') {
+          <app-patient-directory></app-patient-directory>
+        }
+        @case ('appointments') {
+          <app-ai-scheduler></app-ai-scheduler>
+        }
+        @case ('tools') {
+          <app-symptom-checker></app-symptom-checker>
+        }
+        @case ('feedback') {
+          <app-feedback></app-feedback>
+        }
+      }
+    </main>
+  </div>
+} @else {
+  <app-login></app-login>
+}

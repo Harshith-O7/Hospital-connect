@@ -1,0 +1,85 @@
+<div>
+  <h2 class="text-2xl font-bold text-slate-100 mb-4 border-b border-slate-700 pb-2">Hospital Dashboard</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-6">
+    <div class="bg-slate-800 p-6 rounded-lg shadow-lg flex items-center justify-between transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20">
+      <div>
+        <p class="text-sm font-medium text-slate-400">Total Patients</p>
+        <p class="text-3xl font-bold text-slate-100">{{ totalPatients() }}</p>
+      </div>
+      <div class="bg-indigo-500/20 text-indigo-300 p-3 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+      </div>
+    </div>
+    <div class="bg-slate-800 p-6 rounded-lg shadow-lg flex items-center justify-between transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-500/20">
+      <div>
+        <p class="text-sm font-medium text-slate-400">Critical Condition</p>
+        <p class="text-3xl font-bold text-red-500">{{ criticalPatients() }}</p>
+      </div>
+      <div class="bg-red-500/20 text-red-400 p-3 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+      </div>
+    </div>
+    <div class="bg-slate-800 p-6 rounded-lg shadow-lg flex items-center justify-between transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/20">
+      <div>
+        <p class="text-sm font-medium text-slate-400">Stable</p>
+        <p class="text-3xl font-bold text-green-500">{{ stablePatients() }}</p>
+      </div>
+      <div class="bg-green-500/20 text-green-400 p-3 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.085a2 2 0 00-1.736.93L5.5 8m7 2H5.5m7 2v.085a2 2 0 01-1.736 1.93l-2.668.534a2 2 0 01-2.35-1.845l-.213-1.28A2 2 0 015.5 10m7 2h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-2.586m0 0a2.5 2.5 0 010-5H5.5m0 0a2.5 2.5 0 010 5H5.5m0 0V8.5m0 3.5v-3.5"></path></svg>
+      </div>
+    </div>
+    <div class="bg-slate-800 p-6 rounded-lg shadow-lg flex items-center justify-between transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-yellow-500/20">
+      <div>
+        <p class="text-sm font-medium text-slate-400">Recovering</p>
+        <p class="text-3xl font-bold text-yellow-500">{{ recoveringPatients() }}</p>
+      </div>
+      <div class="bg-yellow-500/20 text-yellow-400 p-3 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+    <div class="lg:col-span-1 bg-slate-800 p-6 rounded-lg shadow-lg">
+      <h3 class="text-lg font-semibold text-slate-200 mb-4">Patient Conditions</h3>
+      <div #patientConditionsChart></div>
+    </div>
+    <div class="lg:col-span-2 bg-slate-800 p-6 rounded-lg shadow-lg">
+      <h3 class="text-lg font-semibold text-slate-200 mb-4">Today's Doctor Workload</h3>
+      <div #doctorWorkloadChart></div>
+    </div>
+    <div class="lg:col-span-3 bg-slate-800 p-6 rounded-lg shadow-lg">
+      <h3 class="text-lg font-semibold text-slate-200 mb-4">Weekly Admissions</h3>
+      <div #admissionsChart></div>
+    </div>
+  </div>
+
+  <div class="bg-slate-800 rounded-lg shadow-lg">
+    <div class="p-6 border-b border-slate-700">
+      <h3 class="text-lg font-semibold text-slate-200">Today's Appointments</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-slate-700">
+        <thead class="bg-slate-700/50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Time</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Patient</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Doctor</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Type</th>
+          </tr>
+        </thead>
+        <tbody class="bg-slate-800 divide-y divide-slate-700">
+          @for (appointment of appointments; track $index) {
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-100">{{ appointment.time }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{{ appointment.patientName }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{{ appointment.doctorName }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{{ appointment.type }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

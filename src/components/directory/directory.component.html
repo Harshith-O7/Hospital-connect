@@ -1,0 +1,82 @@
+<div class="bg-slate-800/50 rounded-lg p-4 sm:p-6">
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+    <!-- View Toggle -->
+    <div class="inline-flex rounded-md shadow-sm bg-slate-800 p-1">
+      <button (click)="setView('patients')" [class]="currentView() === 'patients' ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-700'" class="px-4 py-2 text-sm font-medium rounded-md transition-colors">
+        Patients
+      </button>
+      <button (click)="setView('doctors')" [class]="currentView() === 'doctors' ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-700'" class="px-4 py-2 text-sm font-medium rounded-md transition-colors">
+        Doctors
+      </button>
+    </div>
+    
+    <!-- Search -->
+    <div class="relative w-full sm:w-64">
+      <input
+        type="text"
+        [placeholder]="currentView() === 'patients' ? 'Search patients...' : 'Search doctors...'"
+        [value]="searchTerm()"
+        (input)="onSearch($event)"
+        class="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="h-5 w-5 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+      </div>
+    </div>
+  </div>
+
+  @switch(currentView()) {
+    @case('patients') {
+       @if (filteredPatients().length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (patient of filteredPatients(); track patient.id) {
+            <button (click)="openPatientDetails(patient)" class="text-left bg-slate-800 rounded-lg p-5 border border-slate-700 hover:border-indigo-500 transition-colors duration-300">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-slate-100">{{ patient.name }}</h3>
+                <span class="text-xs font-medium px-2 py-0.5 rounded-full" [class]="getConditionClass(patient.condition)">
+                  {{ patient.condition }}
+                </span>
+              </div>
+              <div class="text-sm text-slate-400 space-y-1">
+                <p><span class="font-semibold">ID:</span> {{ patient.id }}</p>
+                <p><span class="font-semibold">Doctor:</span> {{ patient.doctor }}</p>
+              </div>
+            </button>
+          }
+        </div>
+      } @else {
+        <div class="text-center py-12 text-slate-500">No patients found for "{{ searchTerm() }}".</div>
+      }
+    }
+    @case('doctors') {
+       @if (filteredDoctors().length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          @for (doctor of filteredDoctors(); track doctor.id) {
+            <div class="group relative bg-slate-800 rounded-lg text-center p-6 border border-slate-700">
+              <div class="mb-4">
+                <div class="w-20 h-20 rounded-full mx-auto bg-slate-700 flex items-center justify-center text-indigo-300 font-bold text-2xl">
+                  {{ getDoctorInitials(doctor.name) }}
+                </div>
+              </div>
+              <h3 class="font-bold text-slate-100">{{ doctor.name }}</h3>
+              <p class="text-sm text-indigo-400">{{ doctor.specialization }}</p>
+              <div class="absolute inset-0 bg-slate-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg">
+                <button (click)="onSchedule(doctor.name)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md">
+                  Book Appointment
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="text-center py-12 text-slate-500">No doctors found for "{{ searchTerm() }}".</div>
+      }
+    }
+  }
+</div>
+
+<app-patient-details-modal 
+  [isOpen]="isModalOpen()" 
+  [patient]="selectedPatient()" 
+  (close)="closeModal()">
+</app-patient-details-modal>

@@ -1,0 +1,76 @@
+@if (isOpen() && patient(); as p) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm" (click)="onClose()">
+    <div class="bg-slate-800 rounded-lg shadow-2xl w-full max-w-lg m-4 transform transition-all" (click)="$event.stopPropagation()">
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl leading-6 font-bold text-slate-100" id="modal-title">Patient Details</h3>
+           <button type="button" (click)="onClose()" class="text-slate-400 hover:text-white">
+            <span class="sr-only">Close</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+          <div class="sm:col-span-2 flex items-center justify-between p-3 bg-slate-700/50 rounded-md">
+            <span class="font-semibold text-slate-300">Name</span>
+            <span class="text-slate-100 font-medium text-base">{{ p.name }}</span>
+          </div>
+
+           <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-md">
+            <span class="font-semibold text-slate-400">Patient ID</span>
+            <span class="text-slate-200 font-mono">{{ p.id }}</span>
+          </div>
+
+           <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-md">
+            <span class="font-semibold text-slate-400">Age</span>
+            <span class="text-slate-200">{{ p.age }}</span>
+          </div>
+
+          <div class="sm:col-span-2 flex items-center justify-between p-3 bg-slate-700/50 rounded-md">
+            <span class="font-semibold text-slate-300">Condition</span>
+            <span class="font-medium px-2.5 py-0.5 rounded-full" [class]="getConditionClass(p.condition)">
+                {{ p.condition }}
+            </span>
+          </div>
+
+           <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-md">
+            <span class="font-semibold text-slate-400">Room No.</span>
+            <span class="text-slate-200">{{ p.room }}</span>
+          </div>
+
+           <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-md">
+            <span class="font-semibold text-slate-400">Admission</span>
+            <span class="text-slate-200">{{ p.admissionDate }}</span>
+          </div>
+          
+          <div class="sm:col-span-2 flex items-center justify-between p-3 bg-slate-700/50 rounded-md">
+            <span class="font-semibold text-slate-300">Attending Doctor</span>
+            <span class="text-slate-200">{{ p.doctor }}</span>
+          </div>
+
+          <div class="sm:col-span-2 pt-4 mt-4 border-t border-slate-700">
+            <h4 class="text-md font-semibold text-slate-100 mb-2">Contact Details</h4>
+            <div class="space-y-2">
+                <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-md">
+                    <span class="font-semibold text-slate-400">Phone</span>
+                    <a [href]="'tel:' + contactPhone()" class="text-indigo-400 hover:underline">{{ contactPhone() }}</a>
+                </div>
+                 <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-md">
+                    <span class="font-semibold text-slate-400">Email</span>
+                    <a [href]="'mailto:' + contactEmail()" class="text-indigo-400 hover:underline">{{ contactEmail() }}</a>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+       <div class="bg-slate-700/50 px-4 py-3 sm:px-6 flex flex-row-reverse rounded-b-lg">
+          <button type="button" (click)="onClose()" class="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-slate-500 sm:w-auto sm:text-sm">
+            Close
+          </button>
+        </div>
+    </div>
+  </div>
+}
